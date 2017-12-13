@@ -1,0 +1,51 @@
+@using System;
+@model List<Belt.Models.DisplayAuction>
+@{
+    ViewData["Title"] = "Main";
+}
+<br>
+<p>Welcome, @ViewBag.name! | <a href='logout'>Logout</a></p>
+<h2>Current Auctions</h2>
+@if(Model.Count > 0)
+{
+    <table border="solid black 1px">
+        <tr>
+            <th>Product</th>
+            <th>Seller</th>
+            <th>Top Bid</th>
+            <th>Time Remaining</th>
+            <th>Actions</th>
+        </tr>
+        @foreach(var a in Model)
+        {
+            <tr>
+                <td><a href='auction/@a.id'>@a.product</a></td>
+                @if(a.seller_id == ViewBag.id)
+                {
+                    <td>You</td>
+                }
+                else
+                {
+                    <td>@a.seller</td>
+                }
+                <td>$@a.top_bid</td>
+                <td>@a.time_remaining</td>
+                @if(a.seller_id == ViewBag.id)
+                {
+                    <td><a href='delete/@a.id'>Delete</a></td>
+                }
+                else
+                {
+                    <td></td>
+                }
+                
+            </tr>
+        }
+    </table><br>
+}
+else
+{
+    <p>There are currently no auctions to display.</p>
+}
+<a href='create_auction'><button>New Auction</button></a><br><br>
+<p>You currently have $@ViewBag.wallet.</p>

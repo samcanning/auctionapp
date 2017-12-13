@@ -1,0 +1,36 @@
+@model Belt.Models.DisplayAuction
+@{
+    ViewData["Title"] = @Model.product;
+}
+<br><p><a href='/main'>Home</a> | <a href='/logout'>Logout</a></p>
+<h2>@Model.product</h2>
+@if(Model.seller_id != ViewBag.id)
+{
+    <p>Created by @Model.seller</p>
+}
+else
+{
+    <p>Your auction</p>
+}
+<h4>Description</h4>
+<p>@Model.description</p>
+<p>Time remaining: @Model.time_remaining</p>
+@if(Model.top_bidder == null)
+{
+    <p>Starting bid: $@Model.top_bid</p>
+}
+else if(Model.top_bidder_id != ViewBag.id)
+{
+    <p>Current highest bid: $@Model.top_bid by @Model.top_bidder</p>
+}
+else
+{
+    <p>Current highest bid $@Model.top_bid (your bid)</p>
+}
+@if(Model.seller_id != ViewBag.id && Model.top_bidder_id != ViewBag.id)
+{
+    <p>You currently have $@ViewBag.wallet.</p>
+    <form action="/auction/@Model.id/bid" method="post">
+        <input name="bid" type="number" step="0.01"> <input type='submit' value='Bid!'>
+    </form>
+}
